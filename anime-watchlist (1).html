@@ -1,0 +1,591 @@
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&display=swap');
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+.aw-root {
+  --ink: #0B0B0F;
+  --panel: #16161D;
+  --panel-raised: #1E1E27;
+  --line: #33333F;
+  --paper: #EDE7D9;
+  --paper-dim: #A8A39A;
+  --red: #FF3B4E;
+  --red-dim: #5C1620;
+  --yellow: #FFC730;
+  --muted: #7C7C8A;
+  font-family: 'Inter', sans-serif;
+  background: var(--ink);
+  color: var(--paper);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+  background-image:
+    radial-gradient(circle, #232330 1px, transparent 1px);
+  background-size: 14px 14px;
+}
+
+.aw-display { font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.03em; }
+
+/* ---------- Hero ---------- */
+.aw-hero {
+  position: relative;
+  padding: 52px 32px 36px;
+  border-bottom: 3px solid var(--ink);
+  background: var(--panel);
+}
+.aw-hero-decor {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+.aw-hero-decor::before {
+  content: "";
+  position: absolute;
+  top: -20%; right: -10%;
+  width: 70%; height: 160%;
+  background: repeating-linear-gradient(115deg, transparent 0 18px, rgba(255,59,78,0.10) 18px 20px);
+}
+.aw-hero-inner { position: relative; z-index: 1; max-width: 1080px; margin: 0 auto; }
+.aw-eyebrow {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--yellow);
+  border: 1px solid var(--yellow);
+  padding: 3px 10px;
+  clip-path: polygon(6px 0, 100% 0, 100% 100%, 0 100%, 0 6px);
+  margin-bottom: 16px;
+}
+.aw-title {
+  font-size: 76px;
+  line-height: 0.92;
+  color: var(--paper);
+  text-shadow: 4px 4px 0 var(--red);
+  margin-bottom: 8px;
+}
+.aw-subtitle { font-size: 15px; color: var(--paper-dim); max-width: 460px; margin-bottom: 24px; }
+
+.aw-stats { display: flex; gap: 10px; flex-wrap: wrap; }
+.aw-stat {
+  background: var(--panel-raised);
+  border: 1px solid var(--line);
+  padding: 10px 16px;
+  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+}
+.aw-stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 26px; color: var(--red); line-height: 1; }
+.aw-stat-label { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-top: 2px; }
+
+/* ---------- Search ---------- */
+.aw-search-section { margin-bottom: 32px; }
+.aw-search-wrap { position: relative; max-width: 560px; }
+.aw-search-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--ink);
+  border: 2px solid var(--paper);
+  padding: 4px 4px 4px 16px;
+  clip-path: polygon(12px 0, 100% 0, 100% 100%, 0 100%, 0 12px);
+}
+.aw-search-box:focus-within { border-color: var(--red); }
+.aw-search-icon { color: var(--muted); font-size: 16px; flex-shrink: 0; }
+.aw-search-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--paper);
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  padding: 12px 0;
+}
+.aw-search-input::placeholder { color: var(--muted); }
+.aw-search-clear {
+  background: var(--panel-raised);
+  border: none;
+  color: var(--paper-dim);
+  width: 30px; height: 30px;
+  cursor: pointer;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+.aw-search-clear.show { display: flex; }
+
+.aw-results {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0; right: 0;
+  background: var(--panel-raised);
+  border: 2px solid var(--line);
+  max-height: 420px;
+  overflow-y: auto;
+  z-index: 40;
+  clip-path: polygon(12px 0, 100% 0, 100% 100%, 0 100%, 0 12px);
+  display: none;
+}
+.aw-results.show { display: block; }
+.aw-result-row {
+  display: flex;
+  gap: 12px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--line);
+  cursor: pointer;
+  align-items: center;
+}
+.aw-result-row:last-child { border-bottom: none; }
+.aw-result-row:hover { background: rgba(255,59,78,0.12); }
+.aw-result-img { width: 42px; height: 58px; object-fit: cover; background: var(--ink); flex-shrink: 0; }
+.aw-result-info { min-width: 0; flex: 1; }
+.aw-result-title { font-size: 14px; font-weight: 600; color: var(--paper); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.aw-result-meta { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.aw-result-added { font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--yellow); flex-shrink: 0; }
+.aw-result-note { padding: 16px; font-size: 13px; color: var(--muted); text-align: center; }
+
+/* ---------- Tabs ---------- */
+.aw-body { max-width: 1080px; margin: 0 auto; padding: 32px; }
+.aw-tabs { display: flex; gap: 4px; margin-bottom: 24px; flex-wrap: wrap; }
+.aw-tab {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 17px;
+  letter-spacing: 0.04em;
+  background: var(--panel);
+  color: var(--paper-dim);
+  border: 1px solid var(--line);
+  padding: 10px 20px 8px;
+  cursor: pointer;
+  clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+}
+.aw-tab.active { background: var(--red); color: var(--ink); border-color: var(--red); }
+.aw-tab .aw-tab-count { font-family: 'Inter', sans-serif; font-size: 11px; margin-left: 6px; opacity: 0.75; }
+
+/* ---------- Grid / Cards ---------- */
+.aw-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 22px; }
+
+.aw-card {
+  background: var(--panel);
+  border: 2px solid var(--ink);
+  box-shadow: 6px 6px 0 var(--panel-raised);
+  clip-path: polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.15s ease;
+}
+.aw-card:hover { transform: translate(-2px, -2px); box-shadow: 9px 9px 0 var(--red-dim); }
+
+.aw-card-top { display: flex; gap: 12px; padding: 14px 14px 0; }
+.aw-card-img { width: 76px; height: 108px; object-fit: cover; border: 1px solid var(--line); flex-shrink: 0; background: var(--ink); }
+.aw-card-headline { min-width: 0; flex: 1; }
+.aw-card-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 19px;
+  line-height: 1.02;
+  color: var(--paper);
+  letter-spacing: 0.02em;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.aw-card-genres { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 8px; }
+.aw-chip { font-size: 9px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); border: 1px solid var(--line); padding: 2px 6px; }
+.aw-card-airing { font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--yellow); margin-top: 6px; }
+
+.aw-card-body { padding: 12px 14px 14px; margin-top: auto; }
+
+.aw-ep-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.aw-ep-label { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.aw-ep-stepper { display: flex; align-items: center; gap: 8px; }
+.aw-ep-btn {
+  width: 24px; height: 24px;
+  background: var(--panel-raised);
+  border: 1px solid var(--line);
+  color: var(--paper);
+  cursor: pointer;
+  font-size: 15px;
+  line-height: 1;
+  display: flex; align-items: center; justify-content: center;
+}
+.aw-ep-btn:hover { background: var(--red); border-color: var(--red); color: var(--ink); }
+.aw-ep-num { font-family: 'Bebas Neue', sans-serif; font-size: 17px; color: var(--paper); min-width: 52px; text-align: center; }
+
+.aw-progress-track { height: 8px; background: var(--ink); border: 1px solid var(--line); margin-bottom: 12px; overflow: hidden; }
+.aw-progress-fill {
+  height: 100%;
+  background: var(--red);
+  background-image: radial-gradient(circle, rgba(0,0,0,0.35) 1px, transparent 1px);
+  background-size: 5px 5px;
+  transition: width 0.25s ease;
+}
+
+.aw-card-controls { display: flex; gap: 6px; }
+.aw-status-select {
+  flex: 1;
+  background: var(--ink);
+  color: var(--paper);
+  border: 1px solid var(--line);
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  padding: 6px 8px;
+  cursor: pointer;
+}
+.aw-status-select:focus-visible, .aw-ep-btn:focus-visible, .aw-tab:focus-visible, .aw-search-input:focus-visible, .aw-delete-btn:focus-visible {
+  outline: 2px solid var(--yellow);
+  outline-offset: 2px;
+}
+.aw-delete-btn {
+  width: 30px;
+  background: var(--ink);
+  border: 1px solid var(--line);
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 14px;
+}
+.aw-delete-btn:hover { color: var(--red); border-color: var(--red); }
+
+/* ---------- Empty state ---------- */
+.aw-empty {
+  text-align: center;
+  padding: 70px 20px;
+  border: 2px dashed var(--line);
+}
+.aw-empty-title { font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: var(--paper); margin-bottom: 6px; }
+.aw-empty-sub { font-size: 13px; color: var(--muted); }
+
+.aw-loading { text-align: center; padding: 60px 0; color: var(--muted); font-size: 13px; }
+
+@media (max-width: 640px) {
+  .aw-hero { padding: 36px 18px 28px; }
+  .aw-title { font-size: 48px; }
+  .aw-body { padding: 20px; }
+  .aw-grid { grid-template-columns: 1fr 1fr; gap: 14px; }
+  .aw-card-title { font-size: 15px; }
+}
+@media (max-width: 420px) {
+  .aw-grid { grid-template-columns: 1fr; }
+}
+</style>
+
+<div class="aw-root">
+  <div class="aw-hero">
+    <div class="aw-hero-decor"></div>
+    <div class="aw-hero-inner">
+      <span class="aw-eyebrow">Episode tracker</span>
+      <h1 class="aw-title">WATCH<br>LIST.</h1>
+      <p class="aw-subtitle">Search a title, drop it in, keep the streak alive. Your progress, panel by panel.</p>
+
+      <div class="aw-stats" id="aw-stats"></div>
+    </div>
+  </div>
+
+  <div class="aw-body">
+    <div class="aw-search-section">
+      <div class="aw-search-wrap">
+        <div class="aw-search-box">
+          <i class="aw-search-icon">&#128269;</i>
+          <input class="aw-search-input" id="aw-search-input" type="text" placeholder="Search an anime title..." autocomplete="off" />
+          <button class="aw-search-clear" id="aw-search-clear" aria-label="Clear search">&#10005;</button>
+        </div>
+        <div class="aw-results" id="aw-results"></div>
+      </div>
+    </div>
+    <div class="aw-tabs" id="aw-tabs"></div>
+    <div id="aw-grid-container"></div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const STORAGE_KEY = 'anime-watchlist-items';
+  const STATUSES = [
+    { id: 'watching', label: 'Watching' },
+    { id: 'plan', label: 'Plan to watch' },
+    { id: 'hold', label: 'On hold' },
+    { id: 'completed', label: 'Completed' }
+  ];
+
+  let list = [];
+  let activeTab = 'watching';
+  let searchTimer = null;
+  let currentQuery = '';
+
+  const els = {
+    input: document.getElementById('aw-search-input'),
+    clear: document.getElementById('aw-search-clear'),
+    results: document.getElementById('aw-results'),
+    tabs: document.getElementById('aw-tabs'),
+    gridContainer: document.getElementById('aw-grid-container'),
+    stats: document.getElementById('aw-stats')
+  };
+
+  const hasClaudeStorage = typeof window.storage !== 'undefined' && typeof window.storage.get === 'function';
+
+  async function loadList() {
+    try {
+      if (hasClaudeStorage) {
+        const res = await window.storage.get(STORAGE_KEY, false);
+        list = res ? JSON.parse(res.value) : [];
+      } else {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        list = raw ? JSON.parse(raw) : [];
+      }
+    } catch (e) {
+      list = [];
+    }
+    renderAll();
+  }
+
+  async function saveList() {
+    try {
+      if (hasClaudeStorage) {
+        await window.storage.set(STORAGE_KEY, JSON.stringify(list), false);
+      } else {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+      }
+    } catch (e) {
+      console.error('Could not save watchlist', e);
+    }
+  }
+
+  function renderAll() {
+    renderStats();
+    renderTabs();
+    renderGrid();
+  }
+
+  function renderStats() {
+    const watchingCount = list.filter(a => a.status === 'watching').length;
+    const totalEpisodes = list.reduce((sum, a) => sum + (a.currentEpisode || 0), 0);
+    const completedCount = list.filter(a => a.status === 'completed').length;
+    els.stats.innerHTML = `
+      <div class="aw-stat"><div class="aw-stat-num">${watchingCount}</div><div class="aw-stat-label">In progress</div></div>
+      <div class="aw-stat"><div class="aw-stat-num">${totalEpisodes}</div><div class="aw-stat-label">Episodes logged</div></div>
+      <div class="aw-stat"><div class="aw-stat-num">${completedCount}</div><div class="aw-stat-label">Completed</div></div>
+    `;
+  }
+
+  function renderTabs() {
+    els.tabs.innerHTML = STATUSES.map(s => {
+      const count = list.filter(a => a.status === s.id).length;
+      return `<button class="aw-tab ${s.id === activeTab ? 'active' : ''}" data-status="${s.id}">${s.label}<span class="aw-tab-count">${count}</span></button>`;
+    }).join('');
+    els.tabs.querySelectorAll('.aw-tab').forEach(btn => {
+      btn.addEventListener('click', () => {
+        activeTab = btn.dataset.status;
+        renderTabs();
+        renderGrid();
+      });
+    });
+  }
+
+  function renderGrid() {
+    const items = list.filter(a => a.status === activeTab).sort((a, b) => b.addedAt - a.addedAt);
+    if (items.length === 0) {
+      const statusLabel = STATUSES.find(s => s.id === activeTab).label.toLowerCase();
+      els.gridContainer.innerHTML = `
+        <div class="aw-empty">
+          <div class="aw-empty-title">Nothing in ${statusLabel} yet.</div>
+          <div class="aw-empty-sub">Search a title above to add one.</div>
+        </div>`;
+      return;
+    }
+    els.gridContainer.innerHTML = `<div class="aw-grid">${items.map(cardHtml).join('')}</div>`;
+
+    items.forEach(anime => {
+      const card = els.gridContainer.querySelector(`[data-id="${anime.id}"]`);
+      if (!card) return;
+      card.querySelector('.aw-ep-minus').addEventListener('click', () => changeEpisode(anime.id, -1));
+      card.querySelector('.aw-ep-plus').addEventListener('click', () => changeEpisode(anime.id, 1));
+      card.querySelector('.aw-status-select').addEventListener('change', (e) => changeStatus(anime.id, e.target.value));
+      card.querySelector('.aw-delete-btn').addEventListener('click', () => removeAnime(anime.id));
+    });
+  }
+
+  function cardHtml(anime) {
+    const total = anime.episodes;
+    const current = anime.currentEpisode || 0;
+    const pct = total ? Math.min(100, Math.round((current / total) * 100)) : 0;
+    const totalLabel = total ? total : '?';
+    const genres = (anime.genres || []).slice(0, 2).map(g => `<span class="aw-chip">${escapeHtml(g)}</span>`).join('');
+    const airing = anime.airing ? `<div class="aw-card-airing">Currently airing</div>` : '';
+    return `
+      <div class="aw-card" data-id="${anime.id}">
+        <div class="aw-card-top">
+          <img class="aw-card-img" src="${anime.image}" alt="" loading="lazy" onerror="this.style.opacity=0" />
+          <div class="aw-card-headline">
+            <div class="aw-card-title">${escapeHtml(anime.title)}</div>
+            <div class="aw-card-genres">${genres}</div>
+            ${airing}
+          </div>
+        </div>
+        <div class="aw-card-body">
+          <div class="aw-ep-row">
+            <span class="aw-ep-label">Episode</span>
+            <div class="aw-ep-stepper">
+              <button class="aw-ep-btn aw-ep-minus" aria-label="Decrease episode">&#8722;</button>
+              <span class="aw-ep-num">${current}/${totalLabel}</span>
+              <button class="aw-ep-btn aw-ep-plus" aria-label="Increase episode">+</button>
+            </div>
+          </div>
+          <div class="aw-progress-track"><div class="aw-progress-fill" style="width:${pct}%"></div></div>
+          <div class="aw-card-controls">
+            <select class="aw-status-select">
+              ${STATUSES.map(s => `<option value="${s.id}" ${s.id === anime.status ? 'selected' : ''}>${s.label}</option>`).join('')}
+            </select>
+            <button class="aw-delete-btn" aria-label="Remove from list">&#128465;</button>
+          </div>
+        </div>
+      </div>`;
+  }
+
+  function changeEpisode(id, delta) {
+    const anime = list.find(a => a.id === id);
+    if (!anime) return;
+    let next = (anime.currentEpisode || 0) + delta;
+    if (next < 0) next = 0;
+    if (anime.episodes && next > anime.episodes) next = anime.episodes;
+    anime.currentEpisode = next;
+    if (anime.episodes && next >= anime.episodes && anime.status !== 'completed') {
+      anime.status = 'completed';
+      activeTab = activeTab;
+    }
+    saveList();
+    renderStats();
+    renderTabs();
+    renderGrid();
+  }
+
+  function changeStatus(id, status) {
+    const anime = list.find(a => a.id === id);
+    if (!anime) return;
+    anime.status = status;
+    saveList();
+    renderStats();
+    renderTabs();
+    renderGrid();
+  }
+
+  function removeAnime(id) {
+    list = list.filter(a => a.id !== id);
+    saveList();
+    renderAll();
+  }
+
+  function escapeHtml(str) {
+    const d = document.createElement('div');
+    d.textContent = str;
+    return d.innerHTML;
+  }
+
+  // --- Search ---
+  els.input.addEventListener('input', () => {
+    const q = els.input.value.trim();
+    els.clear.classList.toggle('show', q.length > 0);
+    clearTimeout(searchTimer);
+    if (q.length < 2) {
+      els.results.classList.remove('show');
+      return;
+    }
+    searchTimer = setTimeout(() => runSearch(q), 450);
+  });
+
+  els.clear.addEventListener('click', () => {
+    els.input.value = '';
+    els.clear.classList.remove('show');
+    els.results.classList.remove('show');
+    els.input.focus();
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.aw-search-wrap')) {
+      els.results.classList.remove('show');
+    }
+  });
+
+  async function runSearch(query) {
+    currentQuery = query;
+    els.results.innerHTML = `<div class="aw-result-note">Searching...</div>`;
+    els.results.classList.add('show');
+    try {
+      const res = await fetch(`https://api.jikan.moe/v4/anime?q=${encodeURIComponent(query)}&limit=8&sfw=true`);
+      if (query !== currentQuery) return;
+      if (res.status === 429) {
+        els.results.innerHTML = `<div class="aw-result-note">Too many searches at once. Wait a second and try again.</div>`;
+        return;
+      }
+      if (!res.ok) throw new Error('Search failed');
+      const data = await res.json();
+      if (query !== currentQuery) return;
+      const animeList = data.data || [];
+      if (animeList.length === 0) {
+        els.results.innerHTML = `<div class="aw-result-note">No titles found for "${escapeHtml(query)}".</div>`;
+        return;
+      }
+      els.results.innerHTML = animeList.map(a => {
+        const already = list.some(item => item.id === a.mal_id);
+        const img = (a.images && a.images.jpg && (a.images.jpg.image_url)) || '';
+        const type = a.type || 'TV';
+        const eps = a.episodes ? `${a.episodes} eps` : 'Ongoing';
+        const year = a.year ? a.year : '';
+        return `
+          <div class="aw-result-row" data-mal-id="${a.mal_id}">
+            <img class="aw-result-img" src="${img}" alt="" loading="lazy" onerror="this.style.opacity=0" />
+            <div class="aw-result-info">
+              <div class="aw-result-title">${escapeHtml(a.title)}</div>
+              <div class="aw-result-meta">${type} &middot; ${eps}${year ? ' &middot; ' + year : ''}</div>
+            </div>
+            ${already ? '<span class="aw-result-added">Added</span>' : ''}
+          </div>`;
+      }).join('');
+
+      els.results.querySelectorAll('.aw-result-row').forEach(row => {
+        row.addEventListener('click', () => {
+          const malId = parseInt(row.dataset.malId, 10);
+          const anime = animeList.find(a => a.mal_id === malId);
+          if (anime) addAnime(anime);
+        });
+      });
+    } catch (e) {
+      if (query !== currentQuery) return;
+      els.results.innerHTML = `<div class="aw-result-note">Couldn't reach the anime database. Check your connection and try again.</div>`;
+    }
+  }
+
+  function addAnime(a) {
+    if (list.some(item => item.id === a.mal_id)) {
+      els.results.classList.remove('show');
+      els.input.value = '';
+      els.clear.classList.remove('show');
+      return;
+    }
+    const img = (a.images && a.images.jpg && a.images.jpg.image_url) || '';
+    const genres = (a.genres || []).map(g => g.name);
+    list.push({
+      id: a.mal_id,
+      title: a.title,
+      image: img,
+      episodes: a.episodes || null,
+      airing: a.status === 'Currently Airing',
+      genres: genres,
+      status: 'watching',
+      currentEpisode: 0,
+      addedAt: Date.now()
+    });
+    saveList();
+    activeTab = 'watching';
+    renderAll();
+    els.results.classList.remove('show');
+    els.input.value = '';
+    els.clear.classList.remove('show');
+  }
+
+  loadList();
+})();
+</script>
