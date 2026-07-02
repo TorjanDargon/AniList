@@ -1,4 +1,4 @@
-# Watchlist — Anime Episode Tracker
+# AniList — Anime Episode Tracker
 
 A single-file, manga-styled anime watchlist organizer. Search a title, drop it onto your dashboard, and track your episode progress across four lists: Watching, Plan to watch, On hold, and Completed.
 
